@@ -61,7 +61,7 @@ class Payment extends Widget
         if ($orderId = $this->order->getId()) {
             echo Html::hiddenInput('orderNumber', $orderId);
         }
-        echo Html::submitButton(Yii::t($this->getComponent()->messagesCategory, 'Submit'));
+        echo Html::submitButton(Yii::t($this->getComponent()->messagesCategory, $this->submitText));
         echo Html::endForm();
     }
 
