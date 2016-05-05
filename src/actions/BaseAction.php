@@ -47,7 +47,8 @@ class BaseAction extends Action
         parent::init();
         $this->controller->enableCsrfValidation = false;
         Yii::$app->response->setStatusCode(200);
-        Yii::$app->response->headers->set('Content-Type', 'application/xml');
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/xml; charset=utf-8');
     }
 
     public function run()
