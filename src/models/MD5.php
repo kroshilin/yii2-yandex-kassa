@@ -37,7 +37,7 @@ class MD5 extends BaseModel
      * @param  array $request payment parameters
      * @return bool true if MD5 hash is correct
      */
-    private function validateMD5($attribute, $params)
+    public function validateMD5($attribute, $params)
     {
         $str = implode(';', [
             $this->action,
