@@ -45,7 +45,7 @@ class Payment extends Widget
         echo Html::hiddenInput('sum', $this->order->getTotalPrice());
         echo Html::hiddenInput('customerNumber', $this->userIdentity->getCustomerId());
         if (is_array($this->paymentType)) {
-            echo Html::dropDownList('paymentType', $this->paymentType[0], $this->paymentType);
+            echo Html::dropDownList('paymentType', array_keys($this->paymentType)[0], $this->paymentType);
         }
         if (is_array($this->data)) {
             foreach ($this->data as $key => $value) {
