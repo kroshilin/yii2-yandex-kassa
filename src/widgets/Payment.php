@@ -4,9 +4,9 @@ namespace kroshilin\yakassa\widgets;
 
 use kroshilin\yakassa\CustomerInterface;
 use kroshilin\yakassa\OrderInterface;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
-use Yii;
 
 /**
  * Class Payment
@@ -17,9 +17,8 @@ use Yii;
 class Payment extends Widget
 {
     public $component = 'yakassa';
-    public $data = [];
+    public $data      = [];
     public $paymentType;
-    public $action = 'https://money.yandex.ru/eshop.xml';
     public $options;
 
     /**
@@ -39,7 +38,8 @@ class Payment extends Widget
 
     public function run()
     {
-        echo Html::beginForm($this->action, 'post', $this->options);
+        echo Html::beginForm($this->getComponent()->paymentAction, 'post', $this->options);
+
         echo Html::hiddenInput('shopId', $this->getComponent()->shopId);
         echo Html::hiddenInput('scid', $this->getComponent()->scId);
         echo Html::hiddenInput('sum', $this->order->getTotalPrice());
@@ -62,6 +62,7 @@ class Payment extends Widget
             echo Html::hiddenInput('orderNumber', $orderId);
         }
         echo Html::submitButton(Yii::t($this->getComponent()->messagesCategory, $this->submitText));
+
         echo Html::endForm();
     }
 
