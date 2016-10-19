@@ -69,7 +69,6 @@ class YaKassaController extends Controller
                     /**
                      * @var \yii\web\Request $request
                      */
-                    }
                     Yii::warning("Кто-то хотел купить несуществующую подписку! InvoiceId: $invoiceId", Yii::$app->yakassa->logCategory);
                     return false;
                 }
