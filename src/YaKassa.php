@@ -7,12 +7,15 @@
  */
 namespace kroshilin\yakassa;
 
-use \yii\base\Component;
+use yii\base\Component;
 
 class YaKassa extends Component
 {
-    const SECURITY_MD5 = "MD5";
+    const SECURITY_MD5   = "MD5";
     const SECURITY_PKCS7 = "PKCS7";
+
+    const PAYMENT_ACTION_PRODUCTION = 'https://money.yandex.ru/eshop.xml';
+    const PAYMENT_ACTION_DEMO       = 'https://demomoney.yandex.ru/eshop.xml';
 
     public $shopPassword;
     public $securityType;
@@ -24,6 +27,7 @@ class YaKassa extends Component
     public $mwsCert;
     public $mwsPrivateKey;
     public $mwsCertPassword;
+    public $paymentAction;
 
     /**
      * @var string
@@ -38,16 +42,18 @@ class YaKassa extends Component
 
     /**
      * Building XML response.
-     * @param  string $action "checkOrder" or "paymentAviso" string
-     * @param  string $invoiceId     transaction number
-     * @param  string $resultCode   result code
-     * @param  string $message       error message. May be null.
+     *
+     * @param  string $action     "checkOrder" or "paymentAviso" string
+     * @param  string $invoiceId  transaction number
+     * @param  string $resultCode result code
+     * @param  string $message    error message. May be null.
+     *
      * @return string                prepared XML response
      */
     public function buildResponse($action, $invoiceId, $resultCode, $message = null)
     {
         $xml = new \DOMDocument("1.0", "utf-8");;
-        $child = $xml->createElement($action."Response");
+        $child = $xml->createElement($action . "Response");
         $child->setAttribute('performedDatetime', date("Y-m-d\TH:i:s.000P"));
         $child->setAttribute('code', $resultCode);
         if ($message) {
@@ -56,6 +62,7 @@ class YaKassa extends Component
         $child->setAttribute('invoiceId', $invoiceId);
         $child->setAttribute('shopId', $this->shopId);
         $xml->appendChild($child);
+
         return $xml->saveXML();
     }
 
@@ -66,10 +73,10 @@ class YaKassa extends Component
     {
         if (!array_key_exists($this->messagesCategory, \Yii::$app->i18n->translations)) {
             \Yii::$app->i18n->translations[$this->messagesCategory] = [
-                'class' => 'yii\i18n\PhpMessageSource',
+                'class'          => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en-US',
-                'basePath' => __DIR__ . '/messages',
-                'fileMap' => [
+                'basePath'       => __DIR__ . '/messages',
+                'fileMap'        => [
                     'yakassa' => 'yakassa.php'
                 ],
             ];
