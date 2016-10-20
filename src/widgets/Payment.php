@@ -36,6 +36,17 @@ class Payment extends Widget
      */
     public $submitText = 'Submit';
 
+    /** @inheritdoc */
+    public function init()
+    {
+        parent::init();
+
+        if (empty($this->submitText)) {
+            $this->submitText = \Yii::t('yakassa', 'Оплатить');
+        }
+    }
+    
+    /** @inheritdoc */
     public function run()
     {
         echo Html::beginForm($this->getComponent()->paymentAction, 'post', $this->options);
@@ -61,7 +72,7 @@ class Payment extends Widget
         if ($orderId = $this->order->getId()) {
             echo Html::hiddenInput('orderNumber', $orderId);
         }
-        echo Html::submitButton(Yii::t($this->getComponent()->messagesCategory, $this->submitText));
+        echo Html::submitButton($this->submitText);
 
         echo Html::endForm();
     }
