@@ -31,6 +31,7 @@ First, add extension under the components section of your config.php
 	...
 	'yakassa' => [
 		'class' => 'kroshilin\yakassa\YaKassa',
+		'paymentAction' => YII_DEBUG ? 'https://demomoney.yandex.ru/eshop.xml' : 'https://money.yandex.ru/eshop.xml',
 		'shopPassword' => 'password',
 		'securityType' => 'MD5',
 		'shopId' => '12345',
